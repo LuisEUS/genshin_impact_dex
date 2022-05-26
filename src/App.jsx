@@ -1,29 +1,57 @@
+import { useState } from 'react';
 import './App.css';
 
 function App() {
-  const opciones = async()=>{
-    const respuesta = await 
-    fetch("https://api.genshin.dev/")
-    const types = respuesta.json()
-    console.log({types});  
+  const [genshinState, setGenshinState] = useState({
+    types: []
+  });
+
+  const tipos ={
+    artifacts:"Artefactos",
+    boss:"Jefes",
+    characters:"Personajes",
+    consumables:"Consumibles",
+    domains:"Dominios",
+    elements:"Elementos",
+    enemies:"Enemigos",
+    materials:"Materiales",
+    nations:"Naciones",
+    weapons:"Armas",
   };
 
-  opciones();
+  const fetchGenshinApi = async(item, url = "https://api.genshin.dev/")=>
+  {
+    const respuesta = await fetch(url);
+    const respJson = await respuesta.json();
+    if (item === "types"){
+      setGenshinState({
+        types: respJson.types,
+      });
+    }else{
+      setGenshinState({
+      [item]: respJson,
+      });
+    }
+  };
+
+  fetchGenshinApi("types");
+
+  const handleChangeType = ({target}) => {
+    const url = `https://api.genshin.dev/${target.value}`
+    fetchGenshinApi(target.value, url);
+  };
 
   return (
     <div className='App container'>
-    <h3>Genshin Impact Dex</h3>
-    <select>
+    <h1>Genshin Impact Dex</h1>
+    <hr />
+    <select name="types" onChange={handleChangeType}>
     <option value="">Seleccione un elemento</option>
-      <option value="artifacts"></option>
-      <option value="boss"></option>
-      <option value="consumables"></option>
-      <option value="domains"></option>
-      <option value="elements"></option>
-      <option value="enemies"></option>
-      <option value="materials"></option>
-      <option value="nations"></option>
-      <option value="weapons"></option>
+      {genshinState.types.map((type) => (
+      <option key={type} value={type}>
+        {tipos[type]}
+      </option>
+      ))}
     </select>
     </div>
   );
