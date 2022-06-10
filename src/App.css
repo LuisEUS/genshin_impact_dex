@@ -1,5 +1,7 @@
 body {
   background-image: url(/public/polygon-scatter-haikei.svg);
-  background-image: ;
+  /*background-repeat: no-repeat;*/
+  background-size: cover;
+  
 }
 

@@ -25,10 +25,12 @@ function App() {
     const respJson = await respuesta.json();
     if (item === "types"){
       setGenshinState({
+        ...genshinState,
         types: respJson.types,
       });
     }else{
       setGenshinState({
+        ...genshinState,
       [item]: respJson,
       });
     }
@@ -43,7 +45,7 @@ function App() {
 
   return (
     <div className='App container'>
-    <h1>Genshin Impact Dex</h1>
+    <h1 style={{color: "white"}}>Genshin Impact Dex</h1>
     <hr />
     <select name="types" onChange={handleChangeType}>
     <option value="">Seleccione un elemento</option>
