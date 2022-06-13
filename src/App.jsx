@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -34,9 +34,13 @@ function App() {
       [item]: respJson,
       });
     }
+    console.log(respJson);
   };
 
-  fetchGenshinApi("types");
+  useEffect(() => {
+    fetchGenshinApi("types");
+  }, []);
+
 
   const handleChangeType = ({target}) => {
     const url = `https://api.genshin.dev/${target.value}`
@@ -55,6 +59,16 @@ function App() {
       </option>
       ))}
     </select>
+    {
+      genshinState.artifacts && <select name="artifacts">
+        <option value="">Seleccione un set de artefactos</option>
+        {genshinState.artifacts.map((artifact) => (
+          <option key={artifact} value={artifact}>
+            {artifact}
+          </option>
+        ))}
+      </select>
+    }
     </div>
   );
 }
